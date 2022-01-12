@@ -1,0 +1,110 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package multimedia;
+
+/**
+ *
+ * @author AVIJIT
+ */
+
+import java.util.Scanner;
+
+public class Arithmetic_Code 
+{
+    public static void main(String[] args) 
+    {
+        char[] alphabet = new char[100];
+        char[] input = new char[100];
+        double[] alphabetPercent = new double[100];
+        double[] alphabetValue = new double[100];
+        double[] upperRangeChar = new double[100];
+        double[] lowerRangeChar = new double[100];
+        int charactersNo, i, j;
+        double upperRange = 0, lowerRange = 0;
+        double lowerRangeNew = 0, upperRangeNew = 0;
+        double rangeDecode, newRange = 1;
+        
+        Scanner sc = new Scanner(System.in);
+        
+        
+        System.out.println("Enter each character: ");
+        
+        alphabet = sc.next().toCharArray();
+        charactersNo = alphabet.length;
+            
+        System.out.println("Enter Each Characters Percentage: ");
+        
+        for(i=0;i<charactersNo;i++)
+	{
+            alphabetPercent[i] = sc.nextDouble();
+            alphabetValue[i] = alphabetPercent[i]/100.0;
+            
+            if(i>0)
+                lowerRangeChar[i] = upperRangeChar[i-1];
+            else
+                lowerRangeChar[i] = 0;
+            upperRangeChar[i] = lowerRangeChar[i]  + alphabetValue[i];
+	}
+                 
+        System.out.println("Characters  percentage  LowerRange  UpperRange: ");
+        
+        for(i=0;i<charactersNo;i++)
+	{
+            System.out.println("    "+alphabet[i]+"        "+alphabetValue[i]+ "        "+lowerRangeChar[i]+"           "+upperRangeChar[i]);
+	}
+        
+        System.out.println("Enter each input: ");
+        
+        input = sc.next().toCharArray();
+        charactersNo = input.length;
+        
+        System.out.println("Each step of Arithmetic Code: ");
+        
+        for(j = 0; j<charactersNo; j++)
+        {
+            for(i=0; i<alphabet.length; i++)
+            {
+                if(input[j] == alphabet[i])
+                {
+                    //rangeDiff = upperRangeChar[i]*newRange-lowerRangeChar[i]*newRange;
+                    //lowerRangeNew = lowerRangeChar[i]*newRange;
+                    //upperRangeNew = upperRangeChar[i]*newRange;
+                    
+                    lowerRange = lowerRange + lowerRangeChar[i]*newRange;
+                    
+                    upperRange = lowerRangeNew + upperRangeChar[i]*newRange;
+                    
+                    newRange = upperRange - lowerRange;
+                    System.out.println(lowerRange+"  "+upperRange);
+                    
+                    lowerRangeNew = lowerRange;
+                    
+                    break;
+                }
+            }
+        }
+       
+        
+        System.out.println("Arithmetic Encode: "+lowerRange+", "+upperRange);
+        
+        rangeDecode = (upperRange + lowerRange)/2;
+        
+        System.out.print("Arithmetic Decode: ");
+        
+        for(j = 0; j < input.length; j++)
+        {
+            for(i = 0; i < alphabet.length; i++)
+            {
+                if((lowerRangeChar[i]<rangeDecode) && (rangeDecode<upperRangeChar[i]))
+                {
+                    System.out.print(alphabet[i]);
+                    rangeDecode = (rangeDecode - lowerRangeChar[i])/alphabetValue[i];
+                    break;
+                }
+            }
+        }
+    }  
+}

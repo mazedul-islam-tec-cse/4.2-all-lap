@@ -1,0 +1,172 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package cryptography;
+
+import java.io.*;
+import java.util.Scanner;
+
+
+public class OneTimePad {
+
+	// Returning encrypted text
+	public static String stringEncryption(String text, String key)
+	{
+
+		String cipherText = "";
+
+		int cipher[] = new int[key.length()];
+
+		for (int i = 0; i < key.length(); i++) {
+			cipher[i] = text.charAt(i) - 'A' + key.charAt(i)
+						- 'A';
+		}
+
+		for (int i = 0; i < key.length(); i++) {
+			if (cipher[i] > 25) {
+				cipher[i] = cipher[i] - 26;
+			}
+		}
+
+		for (int i = 0; i < key.length(); i++) {
+			int x = cipher[i] + 'A';
+			cipherText += (char)x;
+		}
+
+		return cipherText;
+	}
+        
+        public static String stringEncryptionLower(String text, String key)
+	{
+
+		String cipherText = "";
+
+		int cipher[] = new int[key.length()];
+
+		for (int i = 0; i < key.length(); i++) {
+			cipher[i] = text.charAt(i) - 'a' + key.charAt(i)
+						- 'a';
+		}
+
+		for (int i = 0; i < key.length(); i++) {
+			if (cipher[i] > 25) {
+				cipher[i] = cipher[i] - 26;
+			}
+		}
+
+		for (int i = 0; i < key.length(); i++) {
+			int x = cipher[i] + 'a';
+			cipherText += (char)x;
+		}
+
+		return cipherText;
+	}
+
+	// Returning plain text
+	public static String stringDecryption(String s, String key)
+	{
+		String plainText = "";
+
+		int plain[] = new int[key.length()];
+
+		for (int i = 0; i < key.length(); i++) {
+			plain[i]
+				= s.charAt(i) - 'A' - (key.charAt(i) - 'Z');
+		}
+
+		for (int i = 0; i < key.length(); i++) {
+			if (plain[i] < 0) {
+				plain[i] = plain[i] + 26;
+			}
+		}
+
+		for (int i = 0; i < key.length(); i++) {
+			int x = plain[i] + 'A';
+			plainText += (char)x;
+		}
+
+		return plainText;
+	}
+
+        public static String stringDecryptionLower(String s, String key)
+	{
+		String plainText = "";
+
+		int plain[] = new int[key.length()];
+
+		for (int i = 0; i < key.length(); i++) {
+			plain[i]
+				= s.charAt(i) - 'a' - (key.charAt(i) - 'z');
+		}
+
+		for (int i = 0; i < key.length(); i++) {
+			if (plain[i] < 0) {
+				plain[i] = plain[i] + 26;
+			}
+		}
+
+		for (int i = 0; i < key.length(); i++) {
+			int x = plain[i] + 'a';
+			plainText += (char)x;
+		}
+
+		return plainText;
+	}
+        
+
+	
+	public static void main(String[] args)
+	{
+		// Declaring plain text
+		//String plainText = "ONETIMEPAD";
+                String encryptedText = "";
+                String encryptedTextLower = "";
+                Scanner sc= new Scanner(System.in); //System.in is a standard input stream.
+                System.out.print("Enter Plaintext: ");
+                String plainText= sc.nextLine(); //reads string
+
+                System.out.print("Enter Key: ");
+                String key= sc.nextLine();
+		// Declaring key
+		//String key = "ABCDEFGHIJ";
+
+                if(plainText.charAt(0)>='A' && plainText.charAt(0)<='Z')
+                {
+                    encryptedText = stringEncryption(
+			plainText.toUpperCase(), key.toUpperCase());
+
+		// Printing cipher Text
+                    System.out.println("Cipher Text - "
+						+ encryptedText);
+                }
+                
+                if(plainText.charAt(0)>='a' && plainText.charAt(0)<='z')
+                {
+                    encryptedTextLower = stringEncryptionLower(
+			plainText.toLowerCase(), key.toLowerCase());
+
+		// Printing cipher Text
+                    System.out.println("Cipher Text - "
+						+ encryptedTextLower);
+                
+                }
+/*
+                if(plainText.charAt(0)>='A' && plainText.charAt(0)<='Z')
+                {
+		System.out.println(
+			"Message - "
+			+ stringDecryption(encryptedText.toUpperCase(), key.toUpperCase()));
+                }
+                */
+
+                if(plainText.charAt(0)>='a' && plainText.charAt(0)<='z')
+                {
+		System.out.println(
+			"Message - "
+			+ stringDecryptionLower(encryptedTextLower.toLowerCase(), key.toLowerCase()));
+                }
+	}
+}
+
